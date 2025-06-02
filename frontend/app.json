@@ -1,0 +1,44 @@
+{
+    "pages": [
+      "pages/index/index",
+      "pages/plan/step1/step1",
+      "pages/plan/step2/step2", 
+      "pages/plan/step3/step3",
+      "pages/plan/step4/step4",
+      "pages/plan/step5/step5",
+      "pages/plan/summary/summary",
+      "pages/plan/result/result",
+      "pages/assistant/assistant"
+    ],
+    "window": {
+      "backgroundTextStyle": "dark",
+      "navigationBarBackgroundColor": "#FF6B4A",
+      "navigationBarTitleText": "AI旅行规划",
+      "navigationBarTextStyle": "white",
+      "backgroundColor": "#F8F8F8"
+    },
+    "tabBar": {
+      "color": "#666666",
+      "selectedColor": "#FF6B4A",
+      "backgroundColor": "#FFFFFF",
+      "borderStyle": "black",
+      "list": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "旅行规划",
+          "iconPath": "images/tab-plan.png",
+          "selectedIconPath": "images/tab-plan-active.png"
+        },
+        {
+          "pagePath": "pages/assistant/assistant",
+          "text": "旅行助手",
+          "iconPath": "images/tab-assistant.png",
+          "selectedIconPath": "images/tab-assistant-active.png"
+        }
+      ]
+    },
+    "networkTimeout": {
+      "request": 30000
+    },
+    "debug": true
+  }

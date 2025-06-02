@@ -1,0 +1,53 @@
+<!--pages/plan/step2/step2.wxml-->
+<view class="container">
+  <!-- 进度条 -->
+  <view class="progress-container">
+    <view class="progress-bar" style="width: 40%;"></view>
+  </view>
+
+  <!-- 步骤指示器 -->
+  <view class="step-indicator">第2步</view>
+
+  <!-- 返回按钮 -->
+  <view class="back-button" bindtap="goBack">
+    <text class="back-icon">←</text>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content fade-in">
+    <view class="page-title">这次旅行与谁同行？</view>
+    <view class="page-subtitle">首先，让我们来选择你的搭档吧</view>
+
+    <!-- 同行类型选项 -->
+    <view class="companion-options">
+      <view 
+        class="option-card {{selectedType === item.key ? 'selected' : ''}}"
+        wx:for="{{companionTypes}}"
+        wx:key="key"
+        bindtap="selectCompanionType"
+        data-type="{{item.key}}"
+      >
+        <view class="option-emoji">{{item.emoji}}</view>
+        <view class="option-content">
+          <view class="option-title">{{item.label}}</view>
+          <view class="option-subtitle">{{item.description}}</view>
+        </view>
+        <view class="check-icon" wx:if="{{selectedType === item.key}}">✓</view>
+      </view>
+    </view>
+
+    <!-- 错误提示 -->
+    <view class="error-container" wx:if="{{errorMessage}}">
+      <text class="error-text">{{errorMessage}}</text>
+    </view>
+  </view>
+
+  <!-- 继续按钮 -->
+  <button 
+    class="btn-primary {{canContinue ? '' : 'disabled'}}" 
+    bindtap="continue"
+    disabled="{{!canContinue}}"
+  >
+    继续
+  </button>
+</view>

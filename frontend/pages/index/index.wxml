@@ -1,0 +1,60 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 头部区域 -->
+  <view class="header">
+    <view class="app-title">AI旅行规划</view>
+    <view class="app-subtitle">智能规划您的完美旅程</view>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content">
+    <!-- 功能卡片 -->
+    <view class="feature-card" bindtap="startPlanning">
+      <view class="card-icon">🗺️</view>
+      <view class="card-title">开始旅行规划</view>
+      <view class="card-desc">AI为您定制专属行程</view>
+      <view class="start-arrow">→</view>
+    </view>
+
+    <!-- 最近的规划 -->
+    <view class="recent-plans" wx:if="{{recentPlans.length > 0}}">
+      <view class="section-title">最近的规划</view>
+      <view 
+        class="plan-item"
+        wx:for="{{recentPlans}}"
+        wx:key="id"
+        bindtap="viewPlan"
+        data-id="{{item.id}}"
+      >
+        <view class="plan-info">
+          <view class="plan-title">{{item.title}}</view>
+          <view class="plan-date">{{item.date}}</view>
+        </view>
+        <view class="plan-status">{{item.status}}</view>
+      </view>
+    </view>
+
+    <!-- 功能介绍 -->
+    <view class="features">
+      <view class="section-title">功能特色</view>
+      <view class="feature-list">
+        <view class="feature-item">
+          <view class="feature-icon">🤖</view>
+          <view class="feature-text">AI智能规划</view>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon">🎯</view>
+          <view class="feature-text">个性化推荐</view>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon">💬</view>
+          <view class="feature-text">旅行助手</view>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon">📍</view>
+          <view class="feature-text">实时推荐</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

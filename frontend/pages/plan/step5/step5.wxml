@@ -1,0 +1,81 @@
+<!--pages/plan/step5/step5.wxml-->
+<view class="container">
+  <!-- 进度条 -->
+  <view class="progress-container">
+    <view class="progress-bar" style="width: 100%;"></view>
+  </view>
+
+  <!-- 步骤指示器 -->
+  <view class="step-indicator">第5步</view>
+
+  <!-- 返回按钮 -->
+  <view class="back-button" bindtap="goBack">
+    <text class="back-icon">←</text>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content fade-in">
+    <view class="page-title">确定旅行预算</view>
+    <view class="page-subtitle">根据您的目的地与旅行时长我们为您准备了四种方案</view>
+
+    <!-- 预算选项 -->
+    <view class="budget-options">
+      <view 
+        class="budget-card {{selectedBudget === item.key ? 'selected' : ''}}"
+        wx:for="{{budgetRanges}}"
+        wx:key="key"
+        bindtap="selectBudget"
+        data-key="{{item.key}}"
+      >
+        <view class="budget-header">
+          <view class="budget-title">{{item.label}}</view>
+          <view class="check-icon" wx:if="{{selectedBudget === item.key}}">✓</view>
+        </view>
+        <view class="budget-price">{{item.description}}</view>
+        <view class="budget-subtitle">{{item.subtitle}}</view>
+      </view>
+
+      <!-- 自定义预算输入 -->
+      <view class="custom-budget" wx:if="{{selectedBudget === 'flexible'}}">
+        <view class="input-container">
+          <view class="input-label">请输入您的预算范围（元/人）</view>
+          <input 
+            class="input-field"
+            type="number"
+            placeholder="例如：8000"
+            value="{{customBudget}}"
+            bindinput="onCustomBudgetInput"
+          />
+        </view>
+      </view>
+    </view>
+
+    <!-- 偏好描述 -->
+    <view class="preference-section">
+      <view class="section-title">补充说明（可选）</view>
+      <view class="section-subtitle">描述您的具体需求或偏好</view>
+      <textarea 
+        class="preference-input"
+        placeholder="例如：喜欢安静的地方，对美食有特殊要求..."
+        value="{{preference}}"
+        bindinput="onPreferenceInput"
+        maxlength="200"
+      />
+      <view class="char-count">{{preference.length}}/200</view>
+    </view>
+
+    <!-- 错误提示 -->
+    <view class="error-container" wx:if="{{errorMessage}}">
+      <text class="error-text">{{errorMessage}}</text>
+    </view>
+  </view>
+
+  <!-- 继续按钮 -->
+  <button 
+    class="btn-primary {{canContinue ? '' : 'disabled'}}" 
+    bindtap="continue"
+    disabled="{{!canContinue}}"
+  >
+    完成设置
+  </button>
+</view>

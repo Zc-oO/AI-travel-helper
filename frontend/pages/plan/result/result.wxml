@@ -1,0 +1,151 @@
+<!--pages/plan/result/result.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="back-button" bindtap="goBack">
+      <text class="back-icon">←</text>
+    </view>
+    <view class="header-title">行程详情</view>
+    <view class="more-button" bindtap="showMore">
+      <text class="more-icon">⋯</text>
+    </view>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content">
+    <!-- 行程封面 -->
+    <view class="trip-cover">
+      <image class="cover-image" src="{{coverImage || '/images/default-cover.jpg'}}" mode="aspectFill" />
+      <view class="cover-overlay">
+        <view class="trip-badge">AI生成的行程</view>
+      </view>
+    </view>
+
+    <!-- 行程概要 -->
+    <view class="trip-summary">
+      <view class="trip-title">{{tripTitle}}</view>
+      <view class="trip-info">
+        <view class="info-row">
+          <view class="info-item">
+            <text class="info-icon">📅</text>
+            <text class="info-text">{{travelDate}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-icon">💰</text>
+            <text class="info-text">{{budget}}</text>
+          </view>
+        </view>
+        <view class="info-row">
+          <view class="info-item">
+            <text class="info-icon">🏨</text>
+            <text class="info-text">{{hotelLevel}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-icon">📍</text>
+            <text class="info-text">{{attractions}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 日程导航 -->
+    <view class="schedule-nav">
+      <scroll-view class="nav-scroll" scroll-x="true">
+        <view class="nav-items">
+          <view 
+            class="nav-item {{currentDay === index ? 'active' : ''}}"
+            wx:for="{{dayList}}"
+            wx:key="date"
+            bindtap="switchDay"
+            data-day="{{index}}"
+          >
+            <view class="nav-date">{{item.date}}</view>
+            <view class="nav-day">{{item.day}}</view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 当日行程 -->
+    <view class="daily-schedule" wx:if="{{currentDayData}}">
+      <view class="day-title">{{currentDayData.title}}</view>
+      <view class="day-time">{{currentDayData.time}}</view>
+      
+      <!-- 活动列表 -->
+      <view class="activities-list">
+        <view 
+          class="activity-item"
+          wx:for="{{currentDayData.activities}}"
+          wx:key="id"
+        >
+          <view class="activity-time">{{item.time}}</view>
+          <view class="activity-content">
+            <view class="activity-name">{{item.name}}</view>
+            <view class="activity-desc">{{item.description}}</view>
+            <view class="activity-location" wx:if="{{item.location}}">
+              <text class="location-icon">📍</text>
+              <text class="location-text">{{item.location}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 推荐卡片 -->
+      <view class="recommendation-card" wx:if="{{currentDayData.recommendation}}">
+        <view class="rec-title">推荐</view>
+        <view class="rec-content">
+          <image class="rec-image" src="{{currentDayData.recommendation.image}}" mode="aspectFill" />
+          <view class="rec-info">
+            <view class="rec-name">{{currentDayData.recommendation.name}}</view>
+            <view class="rec-desc">{{currentDayData.recommendation.description}}</view>
+          </view>
+          <view class="love-icon" bindtap="toggleLove" data-id="{{currentDayData.recommendation.id}}">
+            <text class="love-text">{{currentDayData.recommendation.loved ? '❤️' : '🤍'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 选择本计划按钮 -->
+    <view class="action-section">
+      <button class="btn-primary" bindtap="selectPlan">
+        选择本计划
+      </button>
+    </view>
+
+    <!-- 住宿信息 -->
+    <view class="accommodation-section" wx:if="{{hotels.length > 0}}">
+      <view class="section-title">推荐住宿</view>
+      <view 
+        class="hotel-card"
+        wx:for="{{hotels}}"
+        wx:key="id"
+        bindtap="viewHotel"
+        data-hotel="{{item}}"
+      >
+        <image class="hotel-image" src="{{item.image || '/images/default-hotel.jpg'}}" mode="aspectFill" />
+        <view class="hotel-info">
+          <view class="hotel-name">{{item.name}}</view>
+          <view class="hotel-location">{{item.location}}</view>
+          <view class="hotel-price">{{item.price}}</view>
+          <view class="hotel-rating">
+            <text class="rating-text">{{item.rating}}</text>
+            <text class="rating-stars">⭐</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 错误状态 -->
+    <view class="error-container" wx:if="{{errorMessage}}">
+      <text class="error-text">{{errorMessage}}</text>
+      <button class="retry-button" bindtap="retryLoad">重新加载</button>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading-container" wx:if="{{isLoading}}">
+      <view class="loading-icon">⏳</view>
+      <view class="loading-text">加载行程详情中...</view>
+    </view>
+  </view>
+</view>

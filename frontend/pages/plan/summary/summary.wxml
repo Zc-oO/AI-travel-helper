@@ -1,0 +1,104 @@
+<!--pages/plan/summary/summary.wxml-->
+<view class="container">
+  <!-- 返回按钮 -->
+  <view class="back-button" bindtap="goBack">
+    <text class="back-icon">←</text>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content fade-in">
+    <view class="page-title">规划汇总</view>
+    <view class="page-subtitle">根据您对此次旅行的愿望或需求生成规划内容如下</view>
+
+    <!-- 行程名称 -->
+    <view class="trip-name-section">
+      <view class="section-title">旅程名称</view>
+      <input 
+        class="trip-name-input"
+        value="{{tripName}}"
+        bindinput="onTripNameChange"
+        placeholder="为您的旅程起个名字"
+      />
+    </view>
+
+    <!-- 行程信息汇总 -->
+    <view class="summary-info">
+      <view class="info-item">
+        <view class="info-icon">📍</view>
+        <view class="info-content">
+          <view class="info-label">目的地</view>
+          <view class="info-value">{{destination}}</view>
+        </view>
+        <view class="edit-icon" bindtap="editDestination">✏️</view>
+      </view>
+
+      <view class="info-item">
+        <view class="info-icon">👥</view>
+        <view class="info-content">
+          <view class="info-label">选择你的同行者</view>
+          <view class="info-value">{{companionType}}</view>
+        </view>
+        <view class="edit-icon" bindtap="editCompanion">✏️</view>
+      </view>
+
+      <view class="info-item">
+        <view class="info-icon">📅</view>
+        <view class="info-content">
+          <view class="info-label">选择出行日期</view>
+          <view class="info-value">{{travelDate}}</view>
+        </view>
+        <view class="edit-icon" bindtap="editDate">✏️</view>
+      </view>
+
+      <view class="info-item">
+        <view class="info-icon">💰</view>
+        <view class="info-content">
+          <view class="info-label">选择旅程预算</view>
+          <view class="info-value">{{budgetInfo}}</view>
+        </view>
+        <view class="edit-icon" bindtap="editBudget">✏️</view>
+      </view>
+    </view>
+
+    <!-- 兴趣标签 -->
+    <view class="interests-summary" wx:if="{{interests.length > 0}}">
+      <view class="section-title">兴趣</view>
+      <view class="tags-container">
+        <view 
+          class="interest-tag"
+          wx:for="{{interests}}"
+          wx:key="*this"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 补充说明 -->
+    <view class="preference-summary" wx:if="{{preference}}">
+      <view class="section-title">补充说明</view>
+      <view class="preference-text">{{preference}}</view>
+    </view>
+
+    <!-- 生成状态 -->
+    <view class="generation-status" wx:if="{{isGenerating}}">
+      <view class="loading-icon">⏳</view>
+      <view class="loading-text">AI正在为您生成专属行程...</view>
+      <view class="loading-subtitle">这可能需要几分钟时间</view>
+    </view>
+
+    <!-- 错误提示 -->
+    <view class="error-container" wx:if="{{errorMessage}}">
+      <text class="error-text">{{errorMessage}}</text>
+    </view>
+  </view>
+
+  <!-- 生成行程按钮 -->
+  <button 
+    class="btn-primary {{isGenerating ? 'disabled' : ''}}" 
+    bindtap="generatePlan"
+    disabled="{{isGenerating}}"
+  >
+    {{isGenerating ? '生成中...' : '生成旅程'}}
+  </button>
+</view>

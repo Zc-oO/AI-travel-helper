@@ -1,0 +1,106 @@
+<!--pages/plan/step1/step1.wxml-->
+<view class="container">
+  <!-- 进度条 -->
+  <view class="progress-container">
+    <view class="progress-bar" style="width: 20%;"></view>
+  </view>
+
+  <!-- 步骤指示器 -->
+  <view class="step-indicator">第1步</view>
+
+  <!-- 返回按钮 -->
+  <view class="back-button" bindtap="goBack">
+    <text class="back-icon">←</text>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content fade-in">
+    <view class="page-title">你要去哪儿？</view>
+    <view class="page-subtitle">让我们一起探索世界上的各个国家</view>
+
+    <!-- 目的地输入框 -->
+    <view class="input-container">
+      <input 
+        class="input-field" 
+        placeholder="例如，巴黎、夏威夷、日本"
+        placeholder-class="input-placeholder"
+        value="{{inputValue}}"
+        bindinput="onInputChange"
+        bindconfirm="addDestination"
+        focus="{{inputFocus}}"
+      />
+    </view>
+
+    <!-- 已选择的目的地 -->
+    <view class="selected-destinations" wx:if="{{destinations.length > 0}}">
+      <view class="section-title">已选择的目的地</view>
+      <view class="destinations-list">
+        <view 
+          class="destination-tag" 
+          wx:for="{{destinations}}" 
+          wx:key="index"
+          bindtap="removeDestination"
+          data-index="{{index}}"
+        >
+          <text class="destination-name">{{item}}</text>
+          <text class="remove-icon">×</text>
+        </view>
+      </div>
+    </view>
+
+    <!-- 热门推荐 -->
+    <view class="recommendations">
+      <view class="section-title">热门推荐</view>
+      <view class="rec-categories">
+        <view 
+          class="category-tab {{currentCategory === item.key ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="key"
+          bindtap="switchCategory"
+          data-key="{{item.key}}"
+        >
+          {{item.label}}
+        </view>
+      </view>
+      
+      <view class="destinations-grid">
+        <view 
+          class="destination-card {{isSelected(item.name) ? 'selected' : ''}}"
+          wx:for="{{currentDestinations}}"
+          wx:key="name"
+          bindtap="toggleDestination"
+          data-name="{{item.name}}"
+        >
+          <view class="destination-info">
+            <view class="destination-name">{{item.name}}</view>
+            <view class="destination-tags">
+              <text 
+                class="tag"
+                wx:for="{{item.tags}}" 
+                wx:for-item="tag"
+                wx:key="*this"
+              >
+                {{tag}}
+              </text>
+            </view>
+          </view>
+          <view class="check-icon" wx:if="{{isSelected(item.name)}}">✓</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 错误提示 -->
+    <view class="error-container" wx:if="{{errorMessage}}">
+      <text class="error-text">{{errorMessage}}</text>
+    </view>
+  </view>
+
+  <!-- 继续按钮 -->
+  <button 
+    class="btn-primary {{canContinue ? '' : 'disabled'}}" 
+    bindtap="continue"
+    disabled="{{!canContinue}}"
+  >
+    继续
+  </button>
+</view>

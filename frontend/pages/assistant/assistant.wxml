@@ -1,0 +1,145 @@
+<!--pages/assistant/assistant.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-title">旅行助手</view>
+    <view class="location-info" wx:if="{{currentLocation}}">
+      <text class="location-icon">📍</text>
+      <text class="location-text">{{currentLocation}}</text>
+    </view>
+  </view>
+
+  <!-- 聊天区域 -->
+  <scroll-view 
+    class="chat-area" 
+    scroll-y="true" 
+    scroll-top="{{scrollTop}}"
+    scroll-into-view="{{scrollIntoView}}"
+  >
+    <!-- 欢迎消息 -->
+    <view class="welcome-message" wx:if="{{messages.length === 0}}">
+      <view class="welcome-avatar">🤖</view>
+      <view class="welcome-text">
+        <view class="welcome-title">你好！我是你的AI旅行助手</view>
+        <view class="welcome-subtitle">我可以为你推荐当地的美食、景点、住宿等</view>
+      </view>
+    </view>
+
+    <!-- 消息列表 -->
+    <view class="messages-list">
+      <view 
+        class="message-item {{item.type}}"
+        wx:for="{{messages}}"
+        wx:key="id"
+        id="msg-{{item.id}}"
+      >
+        <!-- AI消息 -->
+        <view class="message-content" wx:if="{{item.type === 'ai'}}">
+          <view class="avatar ai-avatar">🤖</view>
+          <view class="message-bubble ai-bubble">
+            <text class="message-text">{{item.content}}</text>
+            <view class="message-time">{{item.time}}</view>
+            
+            <!-- 推荐卡片 -->
+            <view class="recommendations" wx:if="{{item.recommendations}}">
+              <view 
+                class="rec-card"
+                wx:for="{{item.recommendations}}"
+                wx:for-item="rec"
+                wx:key="id"
+                bindtap="selectRecommendation"
+                data-rec="{{rec}}"
+              >
+                <image class="rec-image" src="{{rec.image || '/images/default-rec.jpg'}}" mode="aspectFill" />
+                <view class="rec-info">
+                  <view class="rec-name">{{rec.name}}</view>
+                  <view class="rec-type">{{rec.type}}</view>
+                  <view class="rec-rating">{{rec.rating}} ⭐</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 用户消息 -->
+        <view class="message-content" wx:if="{{item.type === 'user'}}">
+          <view class="message-bubble user-bubble">
+            <text class="message-text">{{item.content}}</text>
+            <view class="message-time">{{item.time}}</view>
+          </view>
+          <view class="avatar user-avatar">👤</view>
+        </view>
+      </view>
+
+      <!-- 加载状态 -->
+      <view class="loading-message" wx:if="{{isTyping}}">
+        <view class="avatar ai-avatar">🤖</view>
+        <view class="typing-indicator">
+          <view class="typing-dots">
+            <view class="dot"></view>
+            <view class="dot"></view>
+            <view class="dot"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 快捷推荐 -->
+  <view class="quick-suggestions" wx:if="{{quickSuggestions.length > 0 && messages.length === 0}}">
+    <view class="suggestions-title">你可以这样问我：</view>
+    <view class="suggestions-list">
+      <view 
+        class="suggestion-item"
+        wx:for="{{quickSuggestions}}"
+        wx:key="*this"
+        bindtap="sendQuickMessage"
+        data-message="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <view class="input-container">
+      <input 
+        class="message-input"
+        placeholder="请告诉我你想了解什么..."
+        value="{{inputText}}"
+        bindinput="onInputChange"
+        bindconfirm="sendMessage"
+        confirm-type="send"
+        disabled="{{isTyping}}"
+      />
+      <button 
+        class="send-button {{inputText ? 'active' : ''}}" 
+        bindtap="sendMessage"
+        disabled="{{!inputText || isTyping}}"
+      >
+        发送
+      </button>
+    </view>
+    
+    <!-- 功能按钮 -->
+    <view class="function-buttons">
+      <view class="function-btn" bindtap="requestLocation">
+        <text class="btn-icon">📍</text>
+        <text class="btn-text">获取位置</text>
+      </view>
+      <view class="function-btn" bindtap="recommendRestaurant">
+        <text class="btn-icon">🍽️</text>
+        <text class="btn-text">推荐美食</text>
+      </view>
+      <view class="function-btn" bindtap="recommendAttraction">
+        <text class="btn-icon">🎯</text>
+        <text class="btn-text">推荐景点</text>
+      </view>
+      <view class="function-btn" bindtap="recommendHotel">
+        <text class="btn-icon">🏨</text>
+        <text class="btn-text">推荐住宿</text>
+      </view>
+    </view>
+  </view>
+</view>

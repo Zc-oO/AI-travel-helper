@@ -1,0 +1,57 @@
+<!--pages/plan/step4/step4.wxml-->
+<view class="container">
+  <!-- 进度条 -->
+  <view class="progress-container">
+    <view class="progress-bar" style="width: 80%;"></view>
+  </view>
+
+  <!-- 步骤指示器 -->
+  <view class="step-indicator">第4步</view>
+
+  <!-- 返回按钮 -->
+  <view class="back-button" bindtap="goBack">
+    <text class="back-icon">←</text>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content fade-in">
+    <view class="page-title">选择您的旅行兴趣</view>
+    <view class="page-subtitle">为您的旅行选择多个参考资料，便其更加合适和准确</view>
+
+    <!-- 兴趣标签 -->
+    <view class="interests-container">
+      <view class="tags-grid">
+        <view 
+          class="tag-item {{isSelected(item.key) ? 'selected' : ''}}"
+          style="background-color: {{isSelected(item.key) ? item.color : '#FFFFFF'}}; border-color: {{item.color}}"
+          wx:for="{{interestTags}}"
+          wx:key="key"
+          bindtap="toggleInterest"
+          data-key="{{item.key}}"
+        >
+          <text class="tag-text" style="color: {{isSelected(item.key) ? '#FFFFFF' : item.color}}">
+            {{item.label}}
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 已选择数量提示 -->
+    <view class="selection-hint" wx:if="{{selectedInterests.length > 0}}">
+      <text class="hint-text">已选择 {{selectedInterests.length}} 个兴趣标签</text>
+    </view>
+
+    <!-- 错误提示 -->
+    <view class="error-container" wx:if="{{errorMessage}}">
+      <text class="error-text">{{errorMessage}}</text>
+    </view>
+  </view>
+
+  <!-- 继续按钮 -->
+  <button 
+    class="btn-primary" 
+    bindtap="continue"
+  >
+    继续
+  </button>
+</view>
