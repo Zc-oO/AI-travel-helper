@@ -1,30 +1,40 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// 请求频率限制
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15分钟
+  max: 100 // 限制每个IP 15分钟内最多100个请求
+});
+
 // 中间件配置
 app.use(cors({
-  origin: ['http://localhost', 'https://servicewechat.com'],
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://servicewechat.com'] 
+    : ['http://localhost'],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(limiter);
 
 // 中间件
-const validationMiddleware = require('./middleware/validation');
+const validationMiddleware = require('./src/middleware/validation');
 
 // 全局中间件
 app.use(validationMiddleware.sanitizeInput);
 
 // 路由
-const planRoutes = require('./routes/plan');
-const assistantRoutes = require('./routes/assistant');
-const formRoutes = require('./routes/form');
+const planRoutes = require('./src/routes/plan');
+const assistantRoutes = require('./src/routes/assistant');
+const formRoutes = require('./src/routes/form');
 
 app.use('/api/plan', planRoutes);
 app.use('/api/assistant', assistantRoutes);
@@ -42,10 +52,17 @@ app.get('/health', (req, res) => {
 // 错误处理中间件
 app.use((err, req, res, next) => {
   console.error('服务器错误:', err);
-  res.status(500).json({
+  
+  // 根据错误类型返回不同的状态码
+  const statusCode = err.statusCode || 500;
+  const errorMessage = process.env.NODE_ENV === 'development' 
+    ? err.message 
+    : '请稍后重试';
+
+  res.status(statusCode).json({
     success: false,
-    message: '服务器内部错误',
-    error: process.env.NODE_ENV === 'development' ? err.message : '请稍后重试'
+    message: errorMessage,
+    error: process.env.NODE_ENV === 'development' ? err : undefined
   });
 });
 

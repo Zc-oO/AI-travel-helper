@@ -1,8 +1,12 @@
 // app.js
+const store = require('./utils/store');
+
 App({
     globalData: {
       // API配置
-      apiBase: 'http://localhost:3000/api', // 开发环境，正式环境需要改为实际域名
+      apiBase: process.env.NODE_ENV === 'development' 
+        ? 'http://localhost:3000/api'
+        : 'https://your-production-domain.com/api',
       
       // 用户数据
       userInfo: null,
@@ -46,7 +50,7 @@ App({
     getSystemInfo() {
       wx.getSystemInfo({
         success: (res) => {
-          this.globalData.systemInfo = res;
+          store.setState({ systemInfo: res });
           console.log('系统信息:', res);
         },
         fail: (err) => {
@@ -60,7 +64,7 @@ App({
       // 尝试从本地存储获取会话信息
       const sessionId = wx.getStorageSync('currentSessionId');
       if (sessionId) {
-        this.globalData.currentSession = { sessionId };
+        store.setState({ currentSession: { sessionId } });
         console.log('恢复会话:', sessionId);
       }
     },
@@ -94,7 +98,7 @@ App({
   
     // 设置当前会话
     setCurrentSession(sessionData) {
-      this.globalData.currentSession = sessionData;
+      store.setState({ currentSession: sessionData });
       if (sessionData && sessionData.sessionId) {
         wx.setStorageSync('currentSessionId', sessionData.sessionId);
       }
@@ -102,13 +106,15 @@ App({
   
     // 清除当前会话
     clearCurrentSession() {
-      this.globalData.currentSession = null;
-      this.globalData.currentPlan = null;
+      store.setState({
+        currentSession: null,
+        currentPlan: null
+      });
       wx.removeStorageSync('currentSessionId');
     },
   
     // 设置当前规划
     setCurrentPlan(planData) {
-      this.globalData.currentPlan = planData;
+      store.setState({ currentPlan: planData });
     }
   });
