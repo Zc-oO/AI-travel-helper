@@ -16,8 +16,8 @@ const limiter = rateLimit({
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://servicewechat.com'] 
-    : ['http://localhost'],
-  methods: ['GET', 'POST'],
+    : ['http://localhost:5000', 'http://localhost:3000', 'http://localhost'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
@@ -35,6 +35,12 @@ app.use(validationMiddleware.sanitizeInput);
 const planRoutes = require('./src/routes/plan');
 const assistantRoutes = require('./src/routes/assistant');
 const formRoutes = require('./src/routes/form');
+
+// 添加对 /plan_trip 的直接支持
+app.post('/plan_trip', (req, res) => {
+  req.url = '/api/plan/generate';
+  app.handle(req, res);
+});
 
 app.use('/api/plan', planRoutes);
 app.use('/api/assistant', assistantRoutes);

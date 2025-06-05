@@ -1,82 +1,82 @@
 {
-    "description": "AI旅行规划小程序",
-    "packOptions": {
-      "ignore": [
-        {
-          "type": "file",
-          "value": ".eslintrc.js"
-        }
-      ]
-    },
-    "setting": {
-      "urlCheck": false,
-      "es6": true,
-      "enhance": true,
-      "postcss": true,
-      "preloadBackgroundData": false,
-      "minified": true,
-      "newFeature": false,
-      "coverView": true,
-      "nodeModules": false,
-      "autoAudits": false,
-      "showShadowRootInWxmlPanel": true,
-      "scopeDataCheck": false,
-      "uglifyFileName": false,
-      "checkInvalidKey": true,
-      "checkSiteMap": true,
-      "uploadWithSourceMap": true,
-      "compileHotReLoad": false,
-      "lazyloadPlaceholderEnable": false,
-      "useMultiFrameRuntime": true,
-      "useApiHook": true,
-      "useApiHostProcess": true,
-      "babelSetting": {
-        "ignore": [],
-        "disablePlugins": [],
-        "outputPath": ""
-      },
-      "enableEngineNative": false,
-      "useIsolateContext": false,
-      "userConfirmedBundleSwitch": false,
-      "packNpmManually": false,
-      "packNpmRelationList": [],
-      "minifyWXSS": true,
-      "disableUseStrict": false,
-      "minifyWXML": true,
-      "showES6CompileOption": false,
-      "useCompilerPlugins": false
-    },
-    "compileType": "miniprogram",
-    "libVersion": "2.19.4",
-    "appid": "你的小程序AppID",
-    "projectname": "travel-planning-miniprogram",
-    "debugOptions": {
-      "hidedInDevtools": []
-    },
-    "scripts": {},
-    "staticServerOptions": {
-      "baseURL": "",
-      "servePath": ""
-    },
-    "isGameTourist": false,
-    "condition": {
-      "search": {
-        "list": []
-      },
-      "conversation": {
-        "list": []
-      },
-      "game": {
-        "list": []
-      },
-      "plugin": {
-        "list": []
-      },
-      "gamePlugin": {
-        "list": []
-      },
-      "miniprogram": {
-        "list": []
+  "description": "AI旅行规划小程序",
+  "packOptions": {
+    "ignore": [
+      {
+        "value": ".eslintrc.js",
+        "type": "file"
       }
+    ],
+    "include": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": false,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "enableEngineNative": false,
+    "useIsolateContext": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "disableUseStrict": false,
+    "minifyWXML": true,
+    "showES6CompileOption": false,
+    "useCompilerPlugins": false,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.19.4",
+  "appid": "wx7d641ca1f4b676d1",
+  "projectname": "travel-planning-miniprogram",
+  "isGameTourist": false,
+  "condition": {
+    "search": {
+      "list": []
+    },
+    "conversation": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "plugin": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": []
     }
-  }
+  },
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
+}
